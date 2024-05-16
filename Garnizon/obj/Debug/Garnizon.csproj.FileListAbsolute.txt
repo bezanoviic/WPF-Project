@@ -1,0 +1,15 @@
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\bin\Debug\Garnizon.exe.config
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\bin\Debug\Garnizon.exe
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\bin\Debug\Garnizon.pdb
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\obj\Debug\Garnizon.csproj.AssemblyReference.cache
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\obj\Debug\MainWindow.g.cs
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\obj\Debug\App.g.cs
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\obj\Debug\Garnizon_MarkupCompile.cache
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\obj\Debug\Garnizon_MarkupCompile.lref
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\obj\Debug\MainWindow.baml
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\obj\Debug\Garnizon.g.resources
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\obj\Debug\Garnizon.Properties.Resources.resources
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\obj\Debug\Garnizon.csproj.GenerateResource.cache
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\obj\Debug\Garnizon.csproj.CoreCompileInputs.cache
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\obj\Debug\Garnizon.exe
+D:\Faks\OOT\Projekat\Projekat\Garnizon\Garnizon\obj\Debug\Garnizon.pdb
