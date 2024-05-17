@@ -96,5 +96,21 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Coat_of_arms_of_Serbia_small.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Bataljon_1.png" />
+    <Resource Include="Images\Bataljon_2.png" />
+    <Resource Include="Images\Bataljon_3.png" />
+    <Resource Include="Images\Bataljon_4.png" />
+    <Resource Include="Images\Brigada_1.png" />
+    <Resource Include="Images\Brigada_2.png" />
+    <Resource Include="Images\Brigada_3.png" />
+    <Resource Include="Images\Brigada_4.png" />
+    <Resource Include="Images\Garnizon_1.png" />
+    <Resource Include="Images\Mapa_Srbije.png" />
+    <Resource Include="Images\Samostalna_Vojska.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
