@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Garnizon"
         mc:Ignorable="d"
-        Title="Vojni Garnizon" Height="800" Width="1000" Icon="D:\Faks\OOT\Projekat\Slike\Coat_of_arms_of_Serbia_small.svg.png">
+        Title="Vojni Garnizon" Height="800" Width="1000" Icon="Images\Coat_of_arms_of_Serbia_small.svg.png">
     <Grid>
         <TabControl>
             <TabItem Header="Pregled Garnizona">
@@ -59,6 +59,10 @@
                     <Button x:Name="dodajx" Click="dodajx_Click" Content="Dodaj" Grid.Column="2" Grid.RowSpan="2" Height="30" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,300,0,0" />
                     <Button x:Name="izmenix" Click="izmenix_Click" Content="Izmeni" Grid.Column="2" Grid.RowSpan="2" Height="30" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,300,0,0" />
                     <Button x:Name="obrisix" Click="obrisix_Click" Content="Obrisi" Grid.Column="2" Grid.RowSpan="2" Height="30" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="320,300,0,0" />
+
+                   
+
+                    <TextBlock Text="Naziv:" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" Grid.ColumnSpan="2" FontSize="24" TextWrapping="Wrap" FontWeight="Medium" Margin="20,300,0,0"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Rasporedjivanje Jedinica">
@@ -110,7 +114,35 @@
             </TabItem>
             <TabItem Header="Karta">
                 <Grid Background="LightGray">
-                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="9*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ComboBox Background="LightGray" x:Name="GarnizoniMapa" SelectionChanged="GarnizoniMapa_SelectionChanged" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                        <ComboBox.ItemTemplate >
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Naziv}" FontSize="25"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <Image  Name="IkonicaMapa" Source="{Binding Ikonica}" Stretch="Uniform" Grid.Column="0" Grid.Row="0"/>
+
+                    <ListBox Background="LightGray" HorizontalContentAlignment="Center" x:Name="JediniceMapa" SelectionChanged="JediniceMapa_SelectionChanged"  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Naziv}" FontSize="25"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <Image Source="Images/Mapa_Srbije.png" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"  />
                 </Grid>
             </TabItem>
         </TabControl>

@@ -38,8 +38,9 @@ namespace Garnizon
             garnizoni.Add(samostalni);
             garnizoni.Add(g1);
             garnizoni.Add(g2);
-            Garnizoni.ItemsSource = garnizoni;
-            GarnizoniRaspored1.ItemsSource = garnizoni;
+            Garnizoni.ItemsSource =
+            GarnizoniMapa.ItemsSource =
+            GarnizoniRaspored1.ItemsSource =
             GarnizoniRaspored2.ItemsSource = garnizoni;
 
         }
@@ -54,9 +55,21 @@ namespace Garnizon
             Garnizoni g = Garnizoni.SelectedItem as Garnizoni;
             if (g != null)
             {
+                if(g.ID==0)
+                {
+                    idx.IsEnabled = false;
+                    nazivx.IsEnabled = false;
+                    obrisix.IsEnabled = false;
+                }
+                else
+                {
+                    idx.IsEnabled = true;
+                    nazivx.IsEnabled = true;
+                    obrisix.IsEnabled = true;
+                }
                 Ikonica1.Source = (ImageSource)new ImageSourceConverter().ConvertFromString(g.Ikonica);
                 Jedinice.ItemsSource = g.Jedinice;
-                idx.Text = (g.ID).ToString();
+                idx.Text = g.ID.ToString();
                 nazivx.Text = g.Naziv;
                 adresax.Text = g.Adresa;
                 ikonicex.SelectedItem = g.Ikonica;
@@ -139,10 +152,10 @@ namespace Garnizon
                     }
                     else
                     {
-                        return true;
+
                     }
                 }
-                return false;
+                return true;
             }
             else
             {
@@ -153,7 +166,6 @@ namespace Garnizon
         private void izmenix_Click(object sender, RoutedEventArgs e)
         {
             Garnizoni g = Garnizoni.SelectedItem as Garnizoni;
-            int id;
             if (IDprovera())
             {
                 g.ID = Int32.Parse(idx.Text);
@@ -182,6 +194,18 @@ namespace Garnizon
             }
             Jedinice.ItemsSource = null;
            
+        }
+
+        private void GarnizoniMapa_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Garnizoni g = GarnizoniMapa.SelectedItem as Garnizoni;
+            IkonicaMapa.Source = (ImageSource)new ImageSourceConverter().ConvertFromString(g.Ikonica);
+            JediniceMapa.ItemsSource = g.Jedinice;
+        }
+
+        private void JediniceMapa_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

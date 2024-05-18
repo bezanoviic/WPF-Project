@@ -37,7 +37,7 @@ namespace Garnizon
         public Garnizoni(string naziv,int id,string adresa,string ikonica)
         {
             this.naziv = naziv;
-            this.id = 0;
+            this.id = id;
             this.adresa = adresa;
             this.ikonica = ikonica;
             this.jedinice = new List<Jedinica>();
