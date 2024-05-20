@@ -5,6 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Windows;
+using Microsoft.Win32;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace Garnizon
 {
@@ -12,7 +23,7 @@ namespace Garnizon
     {
         private string naziv;
         private string adresa;
-        private string ikonica;
+        private BitmapImage ikonica;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -26,9 +37,9 @@ namespace Garnizon
         {
             this.naziv = "";
             this.adresa = "";
-            this.ikonica = "";
+            this.ikonica = new BitmapImage(new Uri("", UriKind.Relative));
         }
-        public Jedinica(string naziv,string adresa,string ikonica)
+        public Jedinica(string naziv,string adresa,BitmapImage ikonica)
         {
             this.naziv = naziv;
             this.adresa = adresa;
@@ -61,7 +72,7 @@ namespace Garnizon
             }
         }
 
-        public string Ikonica
+        public BitmapImage Ikonica
         {
             get { return this.ikonica; }
             set

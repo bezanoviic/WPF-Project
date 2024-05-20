@@ -1,10 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Win32;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -22,31 +24,56 @@ namespace Garnizon
     public partial class MainWindow : Window
     {
         private ObservableCollection<Garnizoni> garnizoni = new ObservableCollection<Garnizoni>();
-        private ObservableCollection<ImageSource> Ikonice = new ObservableCollection<ImageSource>();
-        private Garnizoni samostalni = new Garnizoni("SAMOSTALNI", 0, "AA", "Images/Samostalna_Vojska.png");
+        private ObservableCollection<BitmapImage> Ikonice = new ObservableCollection<BitmapImage>();
+        private ObservableCollection<Jedinica> Jedinicee = new ObservableCollection<Jedinica>();
+        private Garnizoni samostalni = new Garnizoni("SAMOSTALNI", 0, "AA", new BitmapImage(new Uri("Images/Samostalna_Vojska.png", UriKind.Relative)));
+        BitmapImage Image1 = new BitmapImage();
+        BitmapImage Image2 = new BitmapImage();
         public MainWindow()
         {
             InitializeComponent();
-            Ikonice.Add((ImageSource)new ImageSourceConverter().ConvertFromString("Images/Samostalna_Vojska.png"));
-            Ikonice.Add((ImageSource)new ImageSourceConverter().ConvertFromString("Images/Garnizon_1.png"));
             ///Garnizoni samostalni = new Garnizoni("SAMOSTALNI", 0, "AA", "Images/124684_41993003_grb_vojska_srbije.png");
-            Garnizoni g1 = new Garnizoni("Avalski Štit", 1, "Mileta Kitica 77", "Images/Garnizon_1.png");
-            Garnizoni g2 = new Garnizoni("Stitnici Svetla", 2, "BB", "Images/Garnizon_1.png");
-            Jedinica j1 = new Jedinica("1.Pesadija", "Mileta Kitica 77", "");
-            ikonicex.ItemsSource = Ikonice;
-            g1.Jedinice.Add(j1);
+            Garnizoni g1 = new Garnizoni("Avalski Štit", 1, "Mileta Kitica 77", new BitmapImage(new Uri("Images/Garnizon_1.png", UriKind.Relative)));
+            Garnizoni g2 = new Garnizoni("Stitnici Svetla", 2, "BB", new BitmapImage(new Uri("Images/Garnizon_1.png", UriKind.Relative)));
+            Jedinica j1 = new Jedinica("1.Pesadija", "Mileta Kitica 77", new BitmapImage(new Uri("Images/Bataljon_1.png", UriKind.Relative)));
+            Jedinica j2 = new Jedinica("2.Pesadija", "Mileta Kitica 77", new BitmapImage(new Uri("Images/Bataljon_2.png", UriKind.Relative)));
+            Jedinica j3 = new Jedinica("3.Pesadija", "Mileta Kitica 77", new BitmapImage(new Uri("Images/Bataljon_3.png", UriKind.Relative)));
+            Jedinica j4 = new Jedinica("4.Pesadija", "Mileta Kitica 77", new BitmapImage(new Uri("Images/Bataljon_4.png", UriKind.Relative)));
+            g1.Jedinice.Add(j1); g1.Jedinice.Add(j2); g1.Jedinice.Add(j3); g1.Jedinice.Add(j4);
+            Jedinicee.Add(j1); Jedinicee.Add(j2); Jedinicee.Add(j3); Jedinicee.Add(j4);
             garnizoni.Add(samostalni);
             garnizoni.Add(g1);
             garnizoni.Add(g2);
             Garnizoni.ItemsSource = garnizoni;
             GarnizoniRaspored1.ItemsSource = garnizoni;
             GarnizoniRaspored2.ItemsSource = garnizoni;
+            GarnizoniKarta.ItemsSource = garnizoni;
 
+            dodajj.IsEnabled = false;
+            izmenij.IsEnabled = false;
+            obrisij.IsEnabled = false;
+
+            dodajx.IsEnabled = false;
+            obrisix.IsEnabled = false;
+            izmenix.IsEnabled = false;
         }
 
         private void Jedinice_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            Jedinica j = Jedinice.SelectedItem as Jedinica;
+            if(j!=null)
+            {
+                izmenij.IsEnabled = true;
+                obrisij.IsEnabled = true;
+                nazivj.Text = j.Naziv;
+                adresaj.Text = j.Adresa;
+                Image2 = j.Ikonica;
+            }
+            else
+            {
+                izmenij.IsEnabled = false;
+                obrisij.IsEnabled = false;
+            }
         }
 
         private void Garnizoni_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -54,12 +81,42 @@ namespace Garnizon
             Garnizoni g = Garnizoni.SelectedItem as Garnizoni;
             if (g != null)
             {
-                Ikonica1.Source = (ImageSource)new ImageSourceConverter().ConvertFromString(g.Ikonica);
-                Jedinice.ItemsSource = g.Jedinice;
-                idx.Text = (g.ID).ToString();
-                nazivx.Text = g.Naziv;
-                adresax.Text = g.Adresa;
-                ikonicex.SelectedItem = g.Ikonica;
+                if (g.ID == 0)
+                {
+                    idx.IsEnabled = false;
+                    nazivx.IsEnabled = false;
+                    obrisix.IsEnabled = false;
+                    ikonicax.IsEnabled = false;
+                    dodajx.IsEnabled = false;
+                    izmenix.IsEnabled = false;
+                }
+                else
+                {
+                    idx.IsEnabled = true;
+                    nazivx.IsEnabled = true;
+                    obrisix.IsEnabled = true;
+                    ikonicax.IsEnabled = true;
+                    dodajx.IsEnabled = true;
+                    izmenix.IsEnabled = true;
+                }
+                if (g != null)
+                {
+                    nazivj.Text = "";
+                    adresaj.Text = "";
+
+                    Image1 = g.Ikonica;
+                    Ikonica1.Source = g.Ikonica;
+                    Jedinice.ItemsSource = g.Jedinice;
+                    idx.Text = (g.ID).ToString();
+                    nazivx.Text = g.Naziv;
+                    adresax.Text = g.Adresa;
+                }
+            }
+            else
+            {
+                dodajx.IsEnabled = false;
+                obrisix.IsEnabled = false;
+                izmenix.IsEnabled = false;
             }
             
         }
@@ -67,14 +124,14 @@ namespace Garnizon
         private void GarnizoniRaspored1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Garnizoni g = GarnizoniRaspored1.SelectedItem as Garnizoni;
-            Ikonica2.Source = (ImageSource)new ImageSourceConverter().ConvertFromString(g.Ikonica);
+            Ikonica2.Source = g.Ikonica;
             JediniceRaspored1.ItemsSource = g.Jedinice;
         }
 
         private void GarnizoniRaspored2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Garnizoni g = GarnizoniRaspored2.SelectedItem as Garnizoni;
-            Ikonica3.Source = (ImageSource)new ImageSourceConverter().ConvertFromString(g.Ikonica);
+            Ikonica3.Source = g.Ikonica;
             JediniceRaspored2.ItemsSource = g.Jedinice;
         }
 
@@ -108,41 +165,34 @@ namespace Garnizon
 
         }
 
-        private void ikonicex_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            MessageBox.Show(ikonicex.SelectedItem as string);
-        }
-
         private void dodajx_Click(object sender, RoutedEventArgs e)
         {
-            foreach(Garnizoni d in garnizoni)
+            if (IDprovera() && nazivx.Text!="" && adresax.Text!="")
             {
-                if(Int32.Parse(idx.Text)==d.ID)
-                {
-                    
-                }
-            }
-                Garnizoni g = new Garnizoni(nazivx.Text, Int32.Parse(idx.Text), adresax.Text, ikonicex.SelectedItem.ToString());
+                Garnizoni g = new Garnizoni(nazivx.Text, Int32.Parse(idx.Text), adresax.Text, Image1);
                 garnizoni.Add(g);
+                dodajx.IsEnabled = false;
+            }
+            else
+            {
+                MessageBox.Show("Greska pri dodavanju garnizona!");
+            }
         }
 
         private bool IDprovera()
         {
+            Garnizoni g = Garnizoni.SelectedItem as Garnizoni;
             int x;
             if (Int32.TryParse(idx.Text, out x))
             {
                 foreach (Garnizoni d in garnizoni)
                 {
-                    if (Int32.Parse(idx.Text) == d.ID)
+                    if (Int32.Parse(idx.Text) == d.ID && Int32.Parse(idx.Text)!=g.ID)
                     {
                         return false;
                     }
-                    else
-                    {
-                        return true;
-                    }
                 }
-                return false;
+                return true;
             }
             else
             {
@@ -153,18 +203,18 @@ namespace Garnizon
         private void izmenix_Click(object sender, RoutedEventArgs e)
         {
             Garnizoni g = Garnizoni.SelectedItem as Garnizoni;
-            int id;
-            if (IDprovera())
+            if (IDprovera() && nazivx.Text != "" && adresax.Text != "")
             {
                 g.ID = Int32.Parse(idx.Text);
                 g.Adresa = adresax.Text;
                 g.Naziv = nazivx.Text;
-                ///g.Ikonica = ikonicex.SelectedItem as string;
+                g.Ikonica = Image1;
+                Ikonica1.Source = Image1;
                 MessageBox.Show("Garnizon uspesno izmenjen!");
             }
             else
             {
-                MessageBox.Show("ID Nevazeci!");
+                MessageBox.Show("Greska pri izmeni garnizona!");
             }
         }
 
@@ -181,7 +231,116 @@ namespace Garnizon
                 samostalni.Jedinice.Add(j);
             }
             Jedinice.ItemsSource = null;
-           
+            MessageBox.Show("Garnizon uspesno obrisan!");
+        }
+
+        private void ikonicax_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                Image1 = new BitmapImage(new Uri(openFileDialog.FileName));
+                dodajx.IsEnabled = true;
+            }
+        }
+
+        private void GarnizoniKarta_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Garnizoni g = GarnizoniKarta.SelectedItem as Garnizoni;
+            if (g != null)
+            {
+                IkonicaKarta.Source = g.Ikonica;
+                JediniceKarta.ItemsSource = g.Jedinice;
+            }
+        }
+
+        private void JediniceKarta_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ikonicaj_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                Image2 = new BitmapImage(new Uri(openFileDialog.FileName));
+                dodajj.IsEnabled = true;
+            }
+        }
+
+        private bool ProveraJedinice()
+        {
+            foreach (Jedinica j in Jedinicee)
+            {
+                if (nazivj.Text == j.Naziv)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void dodajj_Click(object sender, RoutedEventArgs e)
+        {
+            if (ProveraJedinice() && nazivj.Text != "" && adresaj.Text != "")
+            {
+                if (Garnizoni.SelectedItem != null)
+                {
+                    Garnizoni g = Garnizoni.SelectedItem as Garnizoni;
+                    g.Jedinice.Add(new Jedinica(nazivj.Text, adresaj.Text, Image2));
+                    Jedinicee.Add(new Jedinica(nazivj.Text, adresaj.Text, Image2));
+                }
+                else
+                {
+                    samostalni.Jedinice.Add(new Jedinica(nazivj.Text, adresaj.Text, Image2));
+                    Jedinicee.Add(new Jedinica(nazivj.Text, adresaj.Text, Image2));
+                }
+                MessageBox.Show("Jedinica uspesno dodata!");
+            }
+            else
+            {
+                MessageBox.Show("Greska pri dodavanju jedinice!");
+            }
+            dodajj.IsEnabled = false;
+            Jedinice.Items.Refresh();
+        }
+
+        private void izmenij_Click(object sender, RoutedEventArgs e)
+        {
+            if (ProveraJedinice() && nazivj.Text != "" && adresaj.Text != "")
+            {
+                if(Jedinice.SelectedItem != null)
+                {
+                    Jedinica j = Jedinice.SelectedItem as Jedinica;
+                    j.Ikonica = Image2;
+                    j.Naziv = nazivj.Text;
+                    j.Adresa = adresaj.Text;
+                    MessageBox.Show("Jedinica uspesno izmenjena!");
+                    Jedinice.Items.Refresh();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Greska pri izmeni jedinice!");
+            }
+        }
+
+        private void obrisij_Click(object sender, RoutedEventArgs e)
+        {
+            Garnizoni g = Garnizoni.SelectedItem as Garnizoni;
+            Jedinica j = Jedinice.SelectedItem as Jedinica;
+            Jedinicee.Remove(j);
+            g.Jedinice.Remove(j);
+            nazivj.Text = "";
+            adresaj.Text = "";
+            Jedinice.Items.Refresh();
+            MessageBox.Show("Jedinica uspesno obrisana!");
+        }
+
+        private void export_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Garnizon"
         mc:Ignorable="d"
-        Title="Vojni Garnizon" Height="800" Width="1000" Icon="D:\Faks\OOT\Projekat\Slike\Coat_of_arms_of_Serbia_small.svg.png">
+        Title="Vojni Garnizon" Height="800" Width="1000" Icon="Images\Coat_of_arms_of_Serbia_small.svg.png">
     <Grid>
         <TabControl>
             <TabItem Header="Pregled Garnizona">
@@ -17,7 +17,9 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="9*"/>
+                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <ComboBox Background="LightGray" x:Name="Garnizoni" SelectionChanged="Garnizoni_SelectionChanged" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
                         <ComboBox.ItemTemplate >
@@ -29,36 +31,43 @@
 
                     <Image  Name="Ikonica1" Source="{Binding Ikonica}" Stretch="Uniform" Grid.Column="0" Grid.Row="0"/>
 
-                    <ListBox Background="LightGray" HorizontalContentAlignment="Center" x:Name="Jedinice" Grid.ColumnSpan="2" SelectionChanged="Jedinice_SelectionChanged" Grid.Row="1" Grid.Column="0">
-                        <ListBox.ItemTemplate>
+                    <ListView Background="LightGray" HorizontalContentAlignment="Center" x:Name="Jedinice" Grid.ColumnSpan="2" SelectionChanged="Jedinice_SelectionChanged" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0">
+                        <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Naziv}" FontSize="25"/>
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        </ListView.ItemTemplate>
+                    </ListView>
 
-                    <TextBlock Text="ID:" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2" FontSize="24" TextWrapping="Wrap" FontWeight="Medium" Margin="20"/>
-                    <TextBlock Text="Naziv:" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2" FontSize="24" TextWrapping="Wrap" FontWeight="Medium" Margin="20,70,0,0"/>
-                    <TextBlock Text="Adresa:" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2" FontSize="24" TextWrapping="Wrap" FontWeight="Medium" Margin="20,120,0,0"/>
-                    <TextBlock Text="Ikonica:" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2" FontSize="24" TextWrapping="Wrap" FontWeight="Medium" Margin="20,200,0,0"/>
+                    <TextBlock Text="ID:" Grid.Column="2" Grid.RowSpan="4"  FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" FontWeight="Medium" Margin="-230,20,0,0"/>
+                    <TextBlock Text="Naziv:" Grid.Column="2" Grid.RowSpan="4" FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" FontWeight="Medium" Margin="-270,70,0,0"/>
+                    <TextBlock Text="Adresa:" Grid.Column="2" Grid.RowSpan="4" FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" FontWeight="Medium" Margin="-290,120,0,0"/>
 
-                    <TextBox x:Name="idx" FontSize="18" Padding="2" Grid.Column="2" Grid.RowSpan="2" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Margin="120,25,0,0"/>
-                    <TextBox x:Name="nazivx" FontSize="18" Padding="2" Grid.Column="2" Grid.RowSpan="2" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Margin="120,75,0,0" />
-                    <TextBox x:Name="adresax" FontSize="18"  Padding="2" Grid.Column="2" Grid.RowSpan="2" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Margin="120,125,0,0" />
+                    <TextBox x:Name="idx" FontSize="18" Padding="2" Grid.Column="2" Grid.RowSpan="4" Width="300" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30" Margin="120,25,0,0"/>
+                    <TextBox x:Name="nazivx" FontSize="18" Padding="2" Grid.Column="2" Grid.RowSpan="4" Width="300" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30" Margin="120,75,0,0" />
+                    <TextBox x:Name="adresax" FontSize="18"  Padding="2" Grid.Column="2" Grid.RowSpan="4" Width="300" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30" Margin="120,125,0,0" />
+
+                    <Button x:Name="ikonicax" Click="ikonicax_Click" Content="Izaberite Ikonicu" Grid.Column="4" Grid.RowSpan="3" Height="40" Width="160" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="40,180,0,0" />
+                    <Button x:Name="dodajx" Click="dodajx_Click" Content="Dodaj" Grid.Column="2" Grid.RowSpan="4" Height="30" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-200,250,0,0" />
+                    <Button x:Name="izmenix" Click="izmenix_Click" Content="Izmeni" Grid.Column="2" Grid.RowSpan="4" Height="30" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="40,250,0,0" />
+                    <Button x:Name="obrisix" Click="obrisix_Click" Content="Obrisi" Grid.Column="2" Grid.RowSpan="4" Height="30" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="290,250,0,0" />
+
+                    <Separator Grid.Column="2" VerticalAlignment="Top" Grid.RowSpan="4" Margin="0,330,0,0"/>
+
+                    <TextBlock Text="Naziv:" Grid.Column="2" Grid.RowSpan="4" FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" FontWeight="Medium" Margin="-270,370,0,0"/>
+                    <TextBlock Text="Adresa:" Grid.Column="2" Grid.RowSpan="4" FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" FontWeight="Medium" Margin="-290,420,0,0"/>
+
+                    <TextBox x:Name="nazivj" FontSize="18" Padding="2" Grid.Column="2" Grid.RowSpan="4" Width="300" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30" Margin="120,375,0,0" />
+                    <TextBox x:Name="adresaj" FontSize="18"  Padding="2" Grid.Column="2" Grid.RowSpan="4" Width="300" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30" Margin="120,425,0,0" />
                     
-                    <ComboBox Background="LightGray" x:Name="ikonicex" SelectionChanged="ikonicex_SelectionChanged" Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Height="100" Width="100" Margin="120,175,0,0">
-                        <ComboBox.ItemTemplate >
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding Ikonice}" ToolTip="{Binding Naziv}" Width="100" Height="100" Stretch="Fill"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox> 
+                    <Button x:Name="ikonicaj" Click="ikonicaj_Click" Content="Izaberite Ikonicu" Grid.Column="4" Grid.RowSpan="3" Height="40" Width="160" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="40,480,0,0" />
+                    <Button x:Name="dodajj" Click="dodajj_Click" Content="Dodaj" Grid.Column="2" Grid.RowSpan="4" Height="30" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-200,550,0,0" />
+                    <Button x:Name="izmenij" Click="izmenij_Click" Content="Izmeni" Grid.Column="2" Grid.RowSpan="4" Height="30" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="40,550,0,0" />
+                    <Button x:Name="obrisij" Click="obrisij_Click" Content="Obrisi" Grid.Column="2" Grid.RowSpan="4" Height="30" Width="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="290,550,0,0" />
                     
-                    <Button x:Name="dodajx" Click="dodajx_Click" Content="Dodaj" Grid.Column="2" Grid.RowSpan="2" Height="30" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,300,0,0" />
-                    <Button x:Name="izmenix" Click="izmenix_Click" Content="Izmeni" Grid.Column="2" Grid.RowSpan="2" Height="30" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,300,0,0" />
-                    <Button x:Name="obrisix" Click="obrisix_Click" Content="Obrisi" Grid.Column="2" Grid.RowSpan="2" Height="30" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="320,300,0,0" />
+                    <Separator Grid.Column="2" VerticalAlignment="Top" Grid.RowSpan="4" Margin="0,670,0,0"/>
+
+                    <Button x:Name="export" Click="export_Click" Content="Export" Grid.Column="2" Grid.RowSpan="4" Height="50" Width="200" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="40,680,0,0" />
                 </Grid>
             </TabItem>
             <TabItem Header="Rasporedjivanje Jedinica">
@@ -91,26 +100,56 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                     <Image Name="Ikonica3" Source="{Binding Ikonica}" Stretch="Uniform" Grid.Column="2" Grid.Row="0"/>
-                    
-                    <ListView Background="LightGray" x:Name="JediniceRaspored1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" AllowDrop="True" MouseMove="JediniceRaspored1_MouseMove" DragEnter="JediniceRaspored1_DragEnter" Drop="JediniceRaspored1_Drop">
+
+                    <ListView Background="LightGray" x:Name="JediniceRaspored1" HorizontalContentAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" AllowDrop="True" MouseMove="JediniceRaspored1_MouseMove" DragEnter="JediniceRaspored1_DragEnter" Drop="JediniceRaspored1_Drop">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Naziv}"/>
+                                <TextBlock Text="{Binding Naziv}" FontSize="25"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <ListView Background="LightGray" x:Name="JediniceRaspored2" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" AllowDrop="True" MouseMove="JediniceRaspored2_MouseMove" DragEnter="JediniceRaspored2_DragEnter" Drop="JediniceRaspored2_Drop">
+                    <ListView Background="LightGray" x:Name="JediniceRaspored2" HorizontalContentAlignment="Center" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" AllowDrop="True" MouseMove="JediniceRaspored2_MouseMove" DragEnter="JediniceRaspored2_DragEnter" Drop="JediniceRaspored2_Drop">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Naziv}"/>
+                                <TextBlock Text="{Binding Naziv}" FontSize="25"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
             </TabItem>
             <TabItem Header="Karta">
-                <Grid Background="LightGray">
-                    
+                <Grid Background="DarkGray">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="9*"/>
+                    </Grid.RowDefinitions>
+                    <ComboBox Background="LightGray" x:Name="GarnizoniKarta" SelectionChanged="GarnizoniKarta_SelectionChanged" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                        <ComboBox.ItemTemplate >
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Naziv}" FontSize="25"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <Image  Name="IkonicaKarta" Source="{Binding Ikonica}" Stretch="Uniform" Grid.Column="0" Grid.Row="0"/>
+
+                    <ListView Background="LightGray" HorizontalContentAlignment="Center" x:Name="JediniceKarta" Grid.ColumnSpan="2" SelectionChanged="JediniceKarta_SelectionChanged" Grid.Row="1" Grid.Column="0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
+                                    <Image Source="{Binding Ikonica}"/>
+                                    <TextBlock Text="{Binding Naziv}" FontSize="25"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Image  Name="Karta" Source="Images\Mapa_Srbije.png" Stretch="Uniform" Grid.Column="2" Grid.Row="1"/>
                 </Grid>
             </TabItem>
         </TabControl>
