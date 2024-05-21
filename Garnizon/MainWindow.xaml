@@ -101,14 +101,14 @@
                     </ComboBox>
                     <Image Name="Ikonica3" Source="{Binding Ikonica}" Stretch="Uniform" Grid.Column="2" Grid.Row="0"/>
 
-                    <ListView Background="LightGray" x:Name="JediniceRaspored1" HorizontalContentAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" AllowDrop="True" MouseMove="JediniceRaspored1_MouseMove" DragEnter="JediniceRaspored1_DragEnter" Drop="JediniceRaspored1_Drop">
+                    <ListView Background="LightGray" x:Name="JediniceRaspored1" HorizontalContentAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" AllowDrop="True" MouseMove="JediniceRaspored1_MouseMove" DragEnter="JediniceRaspored1_DragEnter" Drop="JediniceRaspored1_Drop" PreviewMouseLeftButtonDown="JediniceRaspored1_PreviewMouseLeftButtonDown">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Naziv}" FontSize="25"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <ListView Background="LightGray" x:Name="JediniceRaspored2" HorizontalContentAlignment="Center" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" AllowDrop="True" MouseMove="JediniceRaspored2_MouseMove" DragEnter="JediniceRaspored2_DragEnter" Drop="JediniceRaspored2_Drop">
+                    <ListView Background="LightGray" x:Name="JediniceRaspored2" HorizontalContentAlignment="Center" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" AllowDrop="True" MouseMove="JediniceRaspored2_MouseMove" DragEnter="JediniceRaspored2_DragEnter" Drop="JediniceRaspored2_Drop" PreviewMouseLeftButtonDown="JediniceRaspored2_PreviewMouseLeftButtonDown">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Naziv}" FontSize="25"/>

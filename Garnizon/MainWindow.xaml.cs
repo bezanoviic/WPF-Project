@@ -29,10 +29,11 @@ namespace Garnizon
         private Garnizoni samostalni = new Garnizoni("SAMOSTALNI", 0, "AA", new BitmapImage(new Uri("Images/Samostalna_Vojska.png", UriKind.Relative)));
         BitmapImage Image1 = new BitmapImage();
         BitmapImage Image2 = new BitmapImage();
+        Point startPoint = new Point();
         public MainWindow()
         {
             InitializeComponent();
-            ///Garnizoni samostalni = new Garnizoni("SAMOSTALNI", 0, "AA", "Images/124684_41993003_grb_vojska_srbije.png");
+            this.DataContext = this;
             Garnizoni g1 = new Garnizoni("Avalski Štit", 1, "Mileta Kitica 77", new BitmapImage(new Uri("Images/Garnizon_1.png", UriKind.Relative)));
             Garnizoni g2 = new Garnizoni("Stitnici Svetla", 2, "BB", new BitmapImage(new Uri("Images/Garnizon_1.png", UriKind.Relative)));
             Jedinica j1 = new Jedinica("1.Pesadija", "Mileta Kitica 77", new BitmapImage(new Uri("Images/Bataljon_1.png", UriKind.Relative)));
@@ -135,34 +136,118 @@ namespace Garnizon
             JediniceRaspored2.ItemsSource = g.Jedinice;
         }
 
+        private static T FindAncestor<T>(DependencyObject current) where T : DependencyObject
+        {
+            do
+            {
+                if (current is T)
+                {
+                    return (T)current;
+                }
+                current = VisualTreeHelper.GetParent(current);
+            }
+            while (current != null);
+            return null;
+        }
+
         private void JediniceRaspored1_MouseMove(object sender, MouseEventArgs e)
         {
+            Point mousePos = e.GetPosition(null);
+            Vector diff = startPoint - mousePos;
+            Jedinica jj = JediniceRaspored1.SelectedItem as Jedinica;
 
+            if(e.LeftButton == MouseButtonState.Pressed && 
+                (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance) && jj != null)
+            {
+                ListView listView = sender as ListView;
+                ListViewItem listViewItem =
+                    FindAncestor<ListViewItem>((DependencyObject)e.OriginalSource);
+
+                if (listViewItem != null)
+                {
+                    Jedinica j = (Jedinica)listView.ItemContainerGenerator.
+                    ItemFromContainer(listViewItem);
+
+                    DataObject dragData = new DataObject("myFormat", j);
+                    DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Move);
+                }
+            }
         }
 
         private void JediniceRaspored1_DragEnter(object sender, DragEventArgs e)
         {
-
+            if (!e.Data.GetDataPresent("myFormat") || sender == e.Source)
+            {
+                e.Effects = DragDropEffects.None;
+            }
         }
 
         private void JediniceRaspored1_Drop(object sender, DragEventArgs e)
         {
-
+            if (e.Data.GetDataPresent("myFormat"))
+            {
+                Jedinica j = e.Data.GetData("myFormat") as Jedinica;
+                Garnizoni g1 = GarnizoniRaspored1.SelectedItem as Garnizoni;
+                Garnizoni g2 = GarnizoniRaspored2.SelectedItem as Garnizoni;
+                if (g1 != g2 && g1 != null && g2 != null && g2.Jedinice.Contains(j))
+                {
+                    g2.Jedinice.Remove(j);
+                    g1.Jedinice.Add(j);
+                    JediniceRaspored2.Items.Refresh();
+                    JediniceRaspored1.Items.Refresh();
+                }
+            }
         }
 
         private void JediniceRaspored2_MouseMove(object sender, MouseEventArgs e)
         {
+            Point mousePos = e.GetPosition(null);
+            Vector diff = startPoint - mousePos;
+            Jedinica jj = JediniceRaspored2.SelectedItem as Jedinica;
 
+            if (e.LeftButton == MouseButtonState.Pressed &&
+                (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
+            {
+                ListView listView = sender as ListView;
+                ListViewItem listViewItem =
+                    FindAncestor<ListViewItem>((DependencyObject)e.OriginalSource);
+
+                if (listViewItem != null)
+                {
+                    Jedinica j = (Jedinica)listView.ItemContainerGenerator.
+                        ItemFromContainer(listViewItem);
+
+                    DataObject dragData = new DataObject("myFormat", j);
+                    DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Move);
+                }
+            }
         }
 
         private void JediniceRaspored2_Drop(object sender, DragEventArgs e)
         {
-
+            if (e.Data.GetDataPresent("myFormat"))
+            {
+                Jedinica j = e.Data.GetData("myFormat") as Jedinica;
+                Garnizoni g1 = GarnizoniRaspored1.SelectedItem as Garnizoni;
+                Garnizoni g2 = GarnizoniRaspored2.SelectedItem as Garnizoni;
+                if (g1 != g2 && g1 != null && g2 != null && g1.Jedinice.Contains(j))
+                {
+                    g1.Jedinice.Remove(j);
+                    g2.Jedinice.Add(j);
+                    JediniceRaspored2.Items.Refresh();
+                    JediniceRaspored1.Items.Refresh();
+                }
+            }
         }
 
         private void JediniceRaspored2_DragEnter(object sender, DragEventArgs e)
         {
-
+            if (!e.Data.GetDataPresent("myFormat") || sender == e.Source)
+            {
+                e.Effects = DragDropEffects.None;
+            }
         }
 
         private void dodajx_Click(object sender, RoutedEventArgs e)
@@ -341,6 +426,16 @@ namespace Garnizon
         private void export_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void JediniceRaspored1_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            startPoint = e.GetPosition(null);
+        }
+
+        private void JediniceRaspored2_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            startPoint = e.GetPosition(null);
         }
     }
 }
