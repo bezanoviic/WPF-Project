@@ -339,11 +339,6 @@ namespace Garnizon
             }
         }
 
-        private void JediniceKarta_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void ikonicaj_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -436,6 +431,65 @@ namespace Garnizon
         private void JediniceRaspored2_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             startPoint = e.GetPosition(null);
+        }
+
+        private void JediniceKarta_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point mousePos = e.GetPosition(null);
+            Vector diff = startPoint - mousePos;
+            Jedinica jj = JediniceRaspored1.SelectedItem as Jedinica;
+
+            if (e.LeftButton == MouseButtonState.Pressed &&
+                (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance) && jj != null)
+            {
+                ListView listView = sender as ListView;
+                ListViewItem listViewItem =
+                    FindAncestor<ListViewItem>((DependencyObject)e.OriginalSource);
+
+                if (listViewItem != null)
+                {
+                    Jedinica j = (Jedinica)listView.ItemContainerGenerator.
+                    ItemFromContainer(listViewItem);
+
+                    DataObject dragData = new DataObject("myFormat", j);
+                    DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Move);
+                }
+            }
+        }
+        private void JediniceKarta_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            startPoint = e.GetPosition(null);
+        }
+
+        private void Karta_DragEnter(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent("myFormat") || sender == e.Source)
+            {
+                e.Effects = DragDropEffects.None;
+            }
+        }
+
+        private void Karta_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent("myFormat"))
+            {
+                Jedinica j = e.Data.GetData("myFormat") as Jedinica;
+                Image imageControl = (Image)sender;
+                if ((e.Data.GetData(typeof(ImageSource)) != null))
+                {
+                    ImageSource image = e.Data.GetData(typeof(ImageSource)) as ImageSource;
+                    imageControl = new Image() { Width = 100, Height = 100, Source = image };
+                    Image img1 = imageControl;
+                }
+            }
+        }
+
+        private void Karta_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Image image = e.Source as Image;
+            DataObject data = new DataObject(typeof(Uri), image.Source);
+            DragDrop.DoDragDrop(image, data, DragDropEffects.All);
         }
     }
 }

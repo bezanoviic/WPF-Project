@@ -138,7 +138,7 @@
 
                     <Image  Name="IkonicaKarta" Source="{Binding Ikonica}" Stretch="Uniform" Grid.Column="0" Grid.Row="0"/>
 
-                    <ListView Background="LightGray" HorizontalContentAlignment="Center" x:Name="JediniceKarta" Grid.ColumnSpan="2" SelectionChanged="JediniceKarta_SelectionChanged" Grid.Row="1" Grid.Column="0">
+                    <ListView Background="LightGray" HorizontalContentAlignment="Center" MouseMove="JediniceKarta_MouseMove" PreviewMouseLeftButtonDown="JediniceKarta_PreviewMouseLeftButtonDown" x:Name="JediniceKarta" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="0">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
@@ -149,7 +149,11 @@
                         </ListView.ItemTemplate>
                     </ListView>
 
-                    <Image  Name="Karta" Source="Images\Mapa_Srbije.png" Stretch="Uniform" Grid.Column="2" Grid.Row="1"/>
+                    <Image  Name="Karta" Source="Images\Mapa_Srbije.png" AllowDrop="True" MouseLeftButtonDown="Karta_MouseLeftButtonDown" DragEnter="Karta_DragEnter" Drop="Karta_Drop" Stretch="Uniform" Grid.Column="2" Grid.Row="1"/>
+
+                    <Canvas Grid.Row="1" Grid.Column="2" AllowDrop="True" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" DragEnter="Canvas_DragEnter" Drop="Canvas_Drop">
+                        
+                    </Canvas>
                 </Grid>
             </TabItem>
         </TabControl>
