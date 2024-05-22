@@ -491,5 +491,20 @@ namespace Garnizon
             DataObject data = new DataObject(typeof(Uri), image.Source);
             DragDrop.DoDragDrop(image, data, DragDropEffects.All);
         }
+
+        private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void Canvas_DragEnter(object sender, DragEventArgs e)
+        {
+
+        }
+
+        private void Canvas_Drop(object sender, DragEventArgs e)
+        {
+
+        }
     }
 }
