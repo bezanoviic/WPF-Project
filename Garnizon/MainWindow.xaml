@@ -80,7 +80,7 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="9*"/>
+                        <RowDefinition Height="10*"/>
                     </Grid.RowDefinitions>
                     
                     <ComboBox Background="LightGray" x:Name="GarnizoniRaspored1" SelectionChanged="GarnizoniRaspored1_SelectionChanged" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
@@ -126,7 +126,7 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="9*"/>
+                        <RowDefinition Height="10*"/>
                     </Grid.RowDefinitions>
                     <ComboBox Background="LightGray" x:Name="GarnizoniKarta" SelectionChanged="GarnizoniKarta_SelectionChanged" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
                         <ComboBox.ItemTemplate >

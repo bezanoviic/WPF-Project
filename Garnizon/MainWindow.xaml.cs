@@ -97,7 +97,6 @@ namespace Garnizon
                     nazivx.IsEnabled = true;
                     obrisix.IsEnabled = true;
                     ikonicax.IsEnabled = true;
-                    dodajx.IsEnabled = true;
                     izmenix.IsEnabled = true;
                 }
                 if (g != null)
@@ -254,14 +253,27 @@ namespace Garnizon
         {
             if (IDprovera() && nazivx.Text!="" && adresax.Text!="")
             {
-                Garnizoni g = new Garnizoni(nazivx.Text, Int32.Parse(idx.Text), adresax.Text, Image1);
-                garnizoni.Add(g);
-                dodajx.IsEnabled = false;
+                foreach(Garnizoni k in garnizoni.ToList())
+                {
+                    if(Int32.Parse(idx.Text)!= k.ID)
+                    {
+                        Garnizoni g = new Garnizoni(nazivx.Text, Int32.Parse(idx.Text), adresax.Text, Image1);
+                        garnizoni.Add(g);
+                        dodajx.IsEnabled = false;
+                        break;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Greska pri dodavanju garnizona!");
+                        break;
+                    }
+                }
             }
             else
             {
                 MessageBox.Show("Greska pri dodavanju garnizona!");
             }
+            dodajx.IsEnabled = false;
         }
 
         private bool IDprovera()
