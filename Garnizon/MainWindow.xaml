@@ -138,7 +138,7 @@
 
                     <Image  Name="IkonicaKarta" Source="{Binding Ikonica}" Stretch="Uniform" Grid.Column="0" Grid.Row="0"/>
 
-                    <ListView Background="LightGray" HorizontalContentAlignment="Center" MouseMove="JediniceKarta_MouseMove" PreviewMouseLeftButtonDown="JediniceKarta_PreviewMouseLeftButtonDown" x:Name="JediniceKarta" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="0">
+                    <ListView Background="LightGray" AllowDrop="True" HorizontalContentAlignment="Center" MouseMove="JediniceKarta_MouseMove" PreviewMouseLeftButtonDown="JediniceKarta_PreviewMouseLeftButtonDown" x:Name="JediniceKarta" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="0">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
@@ -149,10 +149,10 @@
                         </ListView.ItemTemplate>
                     </ListView>
 
-                    <Image  Name="Karta" Source="Images\Mapa_Srbije.png" AllowDrop="True" MouseLeftButtonDown="Karta_MouseLeftButtonDown" DragEnter="Karta_DragEnter" Drop="Karta_Drop" Stretch="Uniform" Grid.Column="2" Grid.Row="1"/>
+                    
 
-                    <Canvas x:Name="canvas" Grid.Row="1" Grid.Column="2" AllowDrop="True" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" DragEnter="Canvas_DragEnter" Drop="Canvas_Drop">
-                        <Image x:Name="imagec" Source="{Binding Ikonica}" Stretch="Uniform" Width="40" Height="40"/>
+                    <Canvas x:Name="canvas" Grid.Row="1" Grid.Column="2" AllowDrop="True" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" PreviewMouseMove="canvas_PreviewMouseMove" PreviewMouseLeftButtonUp="canvas_PreviewMouseLeftButtonUp" DragEnter="Canvas_DragEnter" Drop="Canvas_Drop" Background="Transparent">
+                        <Image Name="imagec" Source="{Binding Ikonica}" Stretch="Uniform" Width="40" Height="40" MouseLeftButtonDown="imagec_MouseLeftButtonDown"/>
                     </Canvas>
                 </Grid>
             </TabItem>

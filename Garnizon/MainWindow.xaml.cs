@@ -31,6 +31,10 @@ namespace Garnizon
         BitmapImage Image2 = new BitmapImage();
         Point startPoint = new Point();
         Point endPoint = new Point();
+        private Point _enterPoint;
+        private UIElement draggedItem;
+        private Point itemRelativePosition;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -85,19 +89,12 @@ namespace Garnizon
             {
                 if (g.ID == 0)
                 {
-                    idx.IsEnabled = false;
-                    nazivx.IsEnabled = false;
                     obrisix.IsEnabled = false;
-                    ikonicax.IsEnabled = false;
-                    dodajx.IsEnabled = false;
                     izmenix.IsEnabled = false;
                 }
                 else
                 {
-                    idx.IsEnabled = true;
-                    nazivx.IsEnabled = true;
                     obrisix.IsEnabled = true;
-                    ikonicax.IsEnabled = true;
                     izmenix.IsEnabled = true;
                 }
                 if (g != null)
@@ -466,43 +463,13 @@ namespace Garnizon
                     ItemFromContainer(listViewItem);
 
                     DataObject dragData = new DataObject("myFormat", j);
-                    DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Move);
+                    DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Copy);
                 }
             }
         }
         private void JediniceKarta_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             startPoint = e.GetPosition(null);
-        }
-
-        private void Karta_DragEnter(object sender, DragEventArgs e)
-        {
-            if (!e.Data.GetDataPresent("myFormat") || sender == e.Source)
-            {
-                e.Effects = DragDropEffects.None;
-            }
-        }
-
-        private void Karta_Drop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent("myFormat"))
-            {
-                Jedinica j = e.Data.GetData("myFormat") as Jedinica;
-                Image imageControl = (Image)sender;
-                if ((e.Data.GetData(typeof(ImageSource)) != null))
-                {
-                    ImageSource image = e.Data.GetData(typeof(ImageSource)) as ImageSource;
-                    imageControl = new Image() { Width = 100, Height = 100, Source = image };
-                    Image img1 = imageControl;
-                }
-            }
-        }
-
-        private void Karta_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Image image = e.Source as Image;
-            DataObject data = new DataObject(typeof(Uri), image.Source);
-            DragDrop.DoDragDrop(image, data, DragDropEffects.All);
         }
 
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -516,21 +483,54 @@ namespace Garnizon
         {
             if (!e.Data.GetDataPresent("myFormat") || sender == e.Source)
             {
-                e.Effects = DragDropEffects.None;
+                e.Effects = DragDropEffects.Copy;
             }
         }
 
         private void Canvas_Drop(object sender, DragEventArgs e)
         {
             Jedinica j = JediniceKarta.SelectedItem as Jedinica;
-            if (j!=null)
+            if (e.Data.GetDataPresent("MyFormat") && j!=null)
             {
+
+                Canvas canvas = sender as Canvas;
+
                 Image imagec = new Image();
                 imagec.Source = j.Ikonica;
+                imagec.SetValue(Canvas.LeftProperty,_enterPoint.X);
+                imagec.SetValue(Canvas.TopProperty, _enterPoint.Y);
 
                 canvas.Children.Add(imagec);
             }
 
+        }
+
+        private void canvas_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (this.draggedItem == null)
+                return;
+            var newPos = e.GetPosition(canvas) - itemRelativePosition;
+            Canvas.SetTop(this.draggedItem, newPos.Y);
+            Canvas.SetLeft(this.draggedItem, newPos.X);
+            canvas.CaptureMouse();
+            e.Handled = true;
+        }
+
+        private void imagec_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.draggedItem = (UIElement)sender;
+            itemRelativePosition = e.GetPosition(this.draggedItem);
+            e.Handled = true;
+        }
+
+        private void canvas_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (this.draggedItem != null)
+            {
+                this.draggedItem = null;
+                canvas.ReleaseMouseCapture();
+                e.Handled = true;
+            }
         }
     }
 }
