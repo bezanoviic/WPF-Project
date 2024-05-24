@@ -12,12 +12,5 @@
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/bataljon_2.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/bataljon_3.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/bataljon_4.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/brigada_1.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/brigada_2.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/brigada_3.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/brigada_4.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/garnizon_1.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/mapa_srbije.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/samostalna_vojska.png")]
 
 

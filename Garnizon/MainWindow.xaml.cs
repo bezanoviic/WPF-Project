@@ -30,6 +30,7 @@ namespace Garnizon
         BitmapImage Image1 = new BitmapImage();
         BitmapImage Image2 = new BitmapImage();
         Point startPoint = new Point();
+        Point endPoint = new Point();
         public MainWindow()
         {
             InitializeComponent();
@@ -506,16 +507,29 @@ namespace Garnizon
 
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            Image image = e.Source as Image;
+            DataObject data = new DataObject(typeof(Uri), image.Source);
+            DragDrop.DoDragDrop(image, data, DragDropEffects.All);
         }
 
         private void Canvas_DragEnter(object sender, DragEventArgs e)
         {
-
+            if (!e.Data.GetDataPresent("myFormat") || sender == e.Source)
+            {
+                e.Effects = DragDropEffects.None;
+            }
         }
 
         private void Canvas_Drop(object sender, DragEventArgs e)
         {
+            Jedinica j = JediniceKarta.SelectedItem as Jedinica;
+            if (j!=null)
+            {
+                Image imagec = new Image();
+                imagec.Source = j.Ikonica;
+
+                canvas.Children.Add(imagec);
+            }
 
         }
     }
