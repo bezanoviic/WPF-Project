@@ -1,24 +1,10 @@
-0
-SAMOSTALNI
-AA
-Images/Samostalna_Vojska.png
-1
-Avalski Štit
-Mileta Kitica 77
-Images/Garnizon_1.png
-1.Pesadija
-Images/Bataljon_1.png
-Mileta Kitica 77
-2.Pesadija
-Images/Bataljon_2.png
-Mileta Kitica 77
-3.Pesadija
-Images/Bataljon_3.png
-Mileta Kitica 77
-4.Pesadija
-Images/Bataljon_4.png
-Mileta Kitica 77
-2
-Stitnici Svetla
-BB
-Images/Garnizon_1.png
+0	SAMOSTALNI	AA	pack://application:,,,/Garnizon;component/Images/Samostalna_Vojska.png
+	3.Pesadija	pack://application:,,,/Garnizon;component/Images/Bataljon_3.png	Mileta Kitica 77
+	2.Pesadija	pack://application:,,,/Garnizon;component/Images/Bataljon_2.png	Mileta Kitica 77
+
+1	Avalski Štit	Mileta Kitica 77	pack://application:,,,/Garnizon;component/Images/Garnizon_1.png
+	4.Pesadija	pack://application:,,,/Garnizon;component/Images/Bataljon_4.png	Mileta Kitica 77
+	1.Pesadija	pack://application:,,,/Garnizon;component/Images/Bataljon_1.png	Mileta Kitica 77
+
+2	Stitnici Svetla	BB	pack://application:,,,/Garnizon;component/Images/Garnizon_1.png
+

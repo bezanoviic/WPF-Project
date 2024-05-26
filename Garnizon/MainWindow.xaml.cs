@@ -430,7 +430,19 @@ namespace Garnizon
 
         private void export_Click(object sender, RoutedEventArgs e)
         {
+            using (StreamWriter writer = new StreamWriter("Podaci.txt"))
+            {
 
+                foreach (Garnizoni g in garnizoni)
+                {
+                    writer.WriteLine(g.ID.ToString() + "\t" + g.Naziv + "\t" + g.Adresa + "\t" + g.Ikonica.ToString());
+                    foreach (Jedinica j in g.Jedinice)
+                    {
+                        writer.WriteLine("\t" + j.Naziv + "\t" + j.Ikonica.ToString() + "\t" + j.Adresa);
+                    }
+                    writer.WriteLine("");
+                }
+            }
         }
 
         private void JediniceRaspored1_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -535,26 +547,7 @@ namespace Garnizon
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = true;
-            this.Visibility = Visibility.Hidden;
 
-            string testtext = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "Podaci.txt";
-            List<string> output = new List<string>();
-            foreach (Garnizoni g in garnizoni)
-            {
-                output.Add(g.ID.ToString());
-                output.Add(g.Naziv);
-                output.Add(g.Adresa);
-                output.Add(g.Ikonica.ToString());
-                foreach(Jedinica j in g.Jedinice)
-                {
-                    output.Add(j.Naziv);
-                    output.Add(j.Ikonica.ToString());
-                    output.Add(j.Adresa);
-                }
-            }
-
-            File.WriteAllLines("Podaci.txt", output);
         }
     }
 }
