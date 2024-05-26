@@ -114,5 +114,8 @@
     <Resource Include="Images\Bataljon_3.png" />
     <Resource Include="Images\Bataljon_4.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Podaci.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

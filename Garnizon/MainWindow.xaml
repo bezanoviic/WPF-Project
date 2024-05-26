@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Garnizon"
         mc:Ignorable="d"
-        Title="Vojni Garnizon" Height="800" Width="1000" Icon="Images\Coat_of_arms_of_Serbia_small.svg.png">
+        Title="Vojni Garnizon" Height="800" Width="1000" Icon="Images\Coat_of_arms_of_Serbia_small.svg.png" Closing="Window_Closing">
     <Grid>
         <TabControl>
             <TabItem Header="Pregled Garnizona">

@@ -532,5 +532,29 @@ namespace Garnizon
                 e.Handled = true;
             }
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Visibility = Visibility.Hidden;
+
+            string testtext = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "Podaci.txt";
+            List<string> output = new List<string>();
+            foreach (Garnizoni g in garnizoni)
+            {
+                output.Add(g.ID.ToString());
+                output.Add(g.Naziv);
+                output.Add(g.Adresa);
+                output.Add(g.Ikonica.ToString());
+                foreach(Jedinica j in g.Jedinice)
+                {
+                    output.Add(j.Naziv);
+                    output.Add(j.Ikonica.ToString());
+                    output.Add(j.Adresa);
+                }
+            }
+
+            File.WriteAllLines("Podaci.txt", output);
+        }
     }
 }
