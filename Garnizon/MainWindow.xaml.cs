@@ -26,7 +26,7 @@ namespace Garnizon
         private ObservableCollection<Garnizoni> garnizoni = new ObservableCollection<Garnizoni>();
         private ObservableCollection<BitmapImage> Ikonice = new ObservableCollection<BitmapImage>();
         private ObservableCollection<Jedinica> Jedinicee = new ObservableCollection<Jedinica>();
-        private Garnizoni samostalni = new Garnizoni("SAMOSTALNI", 0, "AA", new BitmapImage(new Uri("Images/Samostalna_Vojska.png", UriKind.Relative)));
+        private Garnizoni samostalni = new Garnizoni();
         BitmapImage Image1 = new BitmapImage();
         BitmapImage Image2 = new BitmapImage();
         Point startPoint = new Point();
@@ -39,17 +39,19 @@ namespace Garnizon
         {
             InitializeComponent();
             this.DataContext = this;
-            Garnizoni g1 = new Garnizoni("Avalski Štit", 1, "Mileta Kitica 77", new BitmapImage(new Uri("Images/Garnizon_1.png", UriKind.Relative)));
-            Garnizoni g2 = new Garnizoni("Stitnici Svetla", 2, "BB", new BitmapImage(new Uri("Images/Garnizon_1.png", UriKind.Relative)));
-            Jedinica j1 = new Jedinica("1.Pesadija", "Mileta Kitica 77", new BitmapImage(new Uri("Images/Bataljon_1.png", UriKind.Relative)));
-            Jedinica j2 = new Jedinica("2.Pesadija", "Mileta Kitica 77", new BitmapImage(new Uri("Images/Bataljon_2.png", UriKind.Relative)));
-            Jedinica j3 = new Jedinica("3.Pesadija", "Mileta Kitica 77", new BitmapImage(new Uri("Images/Bataljon_3.png", UriKind.Relative)));
-            Jedinica j4 = new Jedinica("4.Pesadija", "Mileta Kitica 77", new BitmapImage(new Uri("Images/Bataljon_4.png", UriKind.Relative)));
-            g1.Jedinice.Add(j1); g1.Jedinice.Add(j2); g1.Jedinice.Add(j3); g1.Jedinice.Add(j4);
-            Jedinicee.Add(j1); Jedinicee.Add(j2); Jedinicee.Add(j3); Jedinicee.Add(j4);
-            garnizoni.Add(samostalni);
-            garnizoni.Add(g1);
-            garnizoni.Add(g2);
+            //Garnizoni g1 = new Garnizoni("Avalski Štit", 1, "Mileta Kitica 77", new BitmapImage(new Uri("Images/Garnizon_1.png", UriKind.Relative)));
+            //Garnizoni g2 = new Garnizoni("Stitnici Svetla", 2, "BB", new BitmapImage(new Uri("Images/Garnizon_1.png", UriKind.Relative)));
+            //Jedinica j1 = new Jedinica("1.Pesadija", "Mileta Kitica 77", new BitmapImage(new Uri("Images/Bataljon_1.png", UriKind.Relative)));
+            //Jedinica j2 = new Jedinica("2.Pesadija", "Mileta Kitica 77", new BitmapImage(new Uri("Images/Bataljon_2.png", UriKind.Relative)));
+            //Jedinica j3 = new Jedinica("3.Pesadija", "Mileta Kitica 77", new BitmapImage(new Uri("Images/Bataljon_3.png", UriKind.Relative)));
+            //Jedinica j4 = new Jedinica("4.Pesadija", "Mileta Kitica 77", new BitmapImage(new Uri("Images/Bataljon_4.png", UriKind.Relative)));
+            //g1.Jedinice.Add(j1); g1.Jedinice.Add(j2); g1.Jedinice.Add(j3); g1.Jedinice.Add(j4);
+            //Jedinicee.Add(j1); Jedinicee.Add(j2); Jedinicee.Add(j3); Jedinicee.Add(j4);
+            //garnizoni.Add(samostalni);
+            //garnizoni.Add(g1);
+            //garnizoni.Add(g2);
+            load_data();
+            samostalni = garnizoni.First();
             Garnizoni.ItemsSource = garnizoni;
             GarnizoniRaspored1.ItemsSource = garnizoni;
             GarnizoniRaspored2.ItemsSource = garnizoni;
@@ -91,11 +93,13 @@ namespace Garnizon
                 {
                     obrisix.IsEnabled = false;
                     izmenix.IsEnabled = false;
+                    dodajx.IsEnabled = false;
                 }
                 else
                 {
                     obrisix.IsEnabled = true;
                     izmenix.IsEnabled = true;
+                    dodajx.IsEnabled = false;
                 }
                 if (g != null)
                 {
@@ -116,21 +120,26 @@ namespace Garnizon
                 obrisix.IsEnabled = false;
                 izmenix.IsEnabled = false;
             }
-            
         }
 
         private void GarnizoniRaspored1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Garnizoni g = GarnizoniRaspored1.SelectedItem as Garnizoni;
-            Ikonica2.Source = g.Ikonica;
-            JediniceRaspored1.ItemsSource = g.Jedinice;
+            if (g != null)
+            {
+                Ikonica2.Source = g.Ikonica;
+                JediniceRaspored1.ItemsSource = g.Jedinice;
+            }
         }
 
         private void GarnizoniRaspored2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Garnizoni g = GarnizoniRaspored2.SelectedItem as Garnizoni;
-            Ikonica3.Source = g.Ikonica;
-            JediniceRaspored2.ItemsSource = g.Jedinice;
+            if (g != null)
+            {
+                Ikonica3.Source = g.Ikonica;
+                JediniceRaspored2.ItemsSource = g.Jedinice;
+            }
         }
 
         private static T FindAncestor<T>(DependencyObject current) where T : DependencyObject
@@ -547,7 +556,32 @@ namespace Garnizon
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            
+        }
 
+        private void load_data()
+        {
+            string[] text = System.IO.File.ReadAllLines("Podaci.txt");
+            foreach(string line in text)
+            {
+                string[] split = line.Split('\n');
+                string[] split2 = split[0].Split('\t');
+
+                if (split[0] != "")
+                {
+                    if (split2[0] != "")
+                    {
+                        Garnizoni g1 = new Garnizoni(split2[1], Int32.Parse(split2[0]), split2[2], new BitmapImage(new Uri(split2[3],UriKind.RelativeOrAbsolute)));
+                        garnizoni.Add(g1);
+                    }
+                    else if(split2[0] == "")
+                    {
+                        Jedinica j1 = new Jedinica(split2[1], split2[3], new BitmapImage(new Uri(split2[2], UriKind.RelativeOrAbsolute)));
+                        Garnizoni g = garnizoni.Last();
+                        g.Jedinice.Add(j1);
+                    }
+                }
+            }
         }
     }
 }
