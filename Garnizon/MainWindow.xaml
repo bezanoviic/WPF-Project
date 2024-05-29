@@ -149,7 +149,7 @@
                         </ListView.ItemTemplate>
                     </ListView>
 
-                    
+                    <Image  Name="Karta" Source="Images/Mapa_Srbije.png" Stretch="Uniform" Grid.Column="2" Grid.Row="2"/> 
 
                     <Canvas x:Name="canvas" Grid.Row="1" Grid.Column="2" AllowDrop="True" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" PreviewMouseMove="canvas_PreviewMouseMove" PreviewMouseLeftButtonUp="canvas_PreviewMouseLeftButtonUp" DragEnter="Canvas_DragEnter" Drop="Canvas_Drop" Background="Transparent">
                         <Image Name="imagec" Source="{Binding Ikonica}" Stretch="Uniform" Width="40" Height="40" MouseLeftButtonDown="imagec_MouseLeftButtonDown"/>
