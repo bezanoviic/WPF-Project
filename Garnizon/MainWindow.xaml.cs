@@ -643,23 +643,41 @@ namespace Garnizon
                 {
                     g = gg;
                 }
-                if(j!=null)
-                {
-                    foreach(Garnizoni ggg in garnizoni)
-                    {
-                        if(ggg.Jedinice.Contains(j))
-                        {
-                            MessageBox.Show("1");
-                            ggg.Jedinice.Remove(j);
-                        }
-                    }
-                }
             }
             Jedinicek.Remove(j);
             garnizonik.Remove(g);
-
             Ikonicek.RemoveAt(i - 1);
 
+            if (j!=null)
+            {
+                foreach(Garnizoni ggg in garnizoni)
+                {
+                    if(ggg.Jedinice.Contains(j))
+                    {
+                        ggg.Jedinice.Remove(j);
+                    }
+                }
+            }
+
+            if(g!=null)
+            {
+                if(g.ID==0)
+                {
+                    MessageBox.Show("Ne mozete obrisati samostalne!");
+                }
+                else
+                {
+                    foreach(Jedinica jj in g.Jedinice)
+                    {
+                        samostalni.Jedinice.Add(jj);
+                    }
+                    garnizoni.Remove(g);
+                }
+            }
+            GarnizoniKarta.SelectedItem = null;
+            GarnizoniKarta.Items.Refresh();
+            IkonicaKarta.Source = null;
+            JediniceKarta.ItemsSource = null;
         }
 
         private void IkonicaKarta_MouseMove(object sender, MouseEventArgs e)
