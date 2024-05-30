@@ -546,7 +546,19 @@ namespace Garnizon
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            
+            //using (StreamWriter writer = new StreamWriter("Podaci.txt"))
+            //{
+
+            //    foreach (Garnizoni g in garnizoni)
+            //    {
+            //        writer.WriteLine(g.ID.ToString() + "\t" + g.Naziv + "\t" + g.Adresa + "\t" + g.Ikonica.ToString());
+            //        foreach (Jedinica j in g.Jedinice)
+            //        {
+            //            writer.WriteLine("\t" + j.Naziv + "\t" + j.Ikonica.ToString() + "\t" + j.Adresa);
+            //        }
+            //        writer.WriteLine("");
+            //    }
+            //}
         }
 
         private void load_data()
@@ -646,38 +658,35 @@ namespace Garnizon
             }
             Jedinicek.Remove(j);
             garnizonik.Remove(g);
-            Ikonicek.RemoveAt(i - 1);
 
-            if (j!=null)
+            if (j.Naziv!="")
             {
                 foreach(Garnizoni ggg in garnizoni)
                 {
                     if(ggg.Jedinice.Contains(j))
                     {
                         ggg.Jedinice.Remove(j);
+                        JediniceKarta.Items.Refresh();
+                        Ikonicek.RemoveAt(i - 1);
                     }
                 }
             }
 
-            if(g!=null)
+            if(g.Naziv!="")
             {
-                if(g.ID==0)
-                {
-                    MessageBox.Show("Ne mozete obrisati samostalne!");
-                }
-                else
+                if(g.ID!=0)
                 {
                     foreach(Jedinica jj in g.Jedinice)
                     {
                         samostalni.Jedinice.Add(jj);
                     }
                     garnizoni.Remove(g);
+                    GarnizoniKarta.SelectedItem = null;
+                    JediniceKarta.ItemsSource = null;
+                    IkonicaKarta.Source = null;
+                    Ikonicek.RemoveAt(i - 1);
                 }
             }
-            GarnizoniKarta.SelectedItem = null;
-            GarnizoniKarta.Items.Refresh();
-            IkonicaKarta.Source = null;
-            JediniceKarta.ItemsSource = null;
         }
 
         private void IkonicaKarta_MouseMove(object sender, MouseEventArgs e)
