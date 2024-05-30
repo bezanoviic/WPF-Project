@@ -6,6 +6,12 @@
         xmlns:local="clr-namespace:Garnizon"
         mc:Ignorable="d"
         Title="Vojni Garnizon" Height="800" Width="1000" Icon="Images\Coat_of_arms_of_Serbia_small.svg.png" Closing="Window_Closing">
+    <Window.Resources>
+        <ContextMenu x:Key="contextMenu">
+            <MenuItem Header="Remove" Click="MenuItem_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
+            <MenuItem Header="Delete" Click="MenuItem_Click_1" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}" />
+        </ContextMenu>
+    </Window.Resources>
     <Grid>
         <TabControl>
             <TabItem Header="Pregled Garnizona">
@@ -136,7 +142,7 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
 
-                    <Image  Name="IkonicaKarta" Source="{Binding Ikonica}" Stretch="Uniform" Grid.Column="0" Grid.Row="0"/>
+                    <Image  Name="IkonicaKarta" Source="{Binding Ikonica}" AllowDrop="True" MouseMove="IkonicaKarta_MouseMove" PreviewMouseLeftButtonDown="IkonicaKarta_PreviewMouseLeftButtonDown" Stretch="Uniform" Grid.Column="0" Grid.Row="0"/>
 
                     <ListView Background="LightGray" AllowDrop="True" HorizontalContentAlignment="Center" MouseMove="JediniceKarta_MouseMove" PreviewMouseLeftButtonDown="JediniceKarta_PreviewMouseLeftButtonDown" x:Name="JediniceKarta" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="0">
                         <ListView.ItemTemplate>
@@ -149,10 +155,10 @@
                         </ListView.ItemTemplate>
                     </ListView>
 
-                    <Image  Name="Karta" Source="Images/Mapa_Srbije.png" Stretch="Uniform" Grid.Column="2" Grid.Row="2"/> 
+                    <Image  Name="Karta" Source="Images/Mapa_Srbije.png" Stretch="Uniform" Grid.Column="2" Grid.Row="2"/>
 
-                    <Canvas x:Name="canvas" Grid.Row="1" Grid.Column="2" AllowDrop="True" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" PreviewMouseMove="canvas_PreviewMouseMove" PreviewMouseLeftButtonUp="canvas_PreviewMouseLeftButtonUp" DragEnter="Canvas_DragEnter" Drop="Canvas_Drop" Background="Transparent">
-                        <Image Name="imagec" Source="{Binding Ikonica}" Stretch="Uniform" Width="40" Height="40" MouseLeftButtonDown="imagec_MouseLeftButtonDown"/>
+                    <Canvas x:Name="canvas" Grid.Row="1" Grid.Column="2" AllowDrop="True" MouseRightButtonDown="canvas_MouseRightButtonDown" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" MouseLeftButtonUp="canvas_MouseLeftButtonUp" MouseMove="canvas_MouseMove" DragEnter="Canvas_DragEnter" Drop="Canvas_Drop" Background="Transparent">
+                        <Image Name="imagec" Source="{Binding Ikonica}" Stretch="Uniform" Width="40" Height="40"/>
                     </Canvas>
                 </Grid>
             </TabItem>

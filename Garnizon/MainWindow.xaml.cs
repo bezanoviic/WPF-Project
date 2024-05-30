@@ -1,20 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using Microsoft.Win32;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Garnizon
 {
@@ -26,15 +19,17 @@ namespace Garnizon
         private ObservableCollection<Garnizoni> garnizoni = new ObservableCollection<Garnizoni>();
         private ObservableCollection<BitmapImage> Ikonice = new ObservableCollection<BitmapImage>();
         private ObservableCollection<Jedinica> Jedinicee = new ObservableCollection<Jedinica>();
-        private ObservableCollection<Jedinica> Kanvasi = new ObservableCollection<Jedinica>();
+        private ObservableCollection<Jedinica> Jedinicek = new ObservableCollection<Jedinica>();
+        private ObservableCollection<Garnizoni> garnizonik = new ObservableCollection<Garnizoni>();
+        private ObservableCollection<BitmapImage> Ikonicek = new ObservableCollection<BitmapImage>();
         private Garnizoni samostalni = new Garnizoni();
         BitmapImage Image1 = new BitmapImage();
         BitmapImage Image2 = new BitmapImage();
         Point startPoint = new Point();
-        Point endPoint = new Point();
-        private Point _enterPoint;
-        private UIElement draggedItem;
-        private Point itemRelativePosition;
+        private Image draggedItem;
+        private Image currentItem;
+        private Point mousePosition;
+
 
         public MainWindow()
         {
@@ -496,7 +491,15 @@ namespace Garnizon
 
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            
+            var image = e.Source as Image;
+
+            if (image != null && canvas.CaptureMouse())
+            {
+                mousePosition = e.GetPosition(canvas);
+                draggedItem = image;
+
+                Panel.SetZIndex(draggedItem, 1);
+            }
         }
 
         private void Canvas_DragEnter(object sender, DragEventArgs e)
@@ -510,7 +513,8 @@ namespace Garnizon
         private void Canvas_Drop(object sender, DragEventArgs e)
         {
             Jedinica j = JediniceKarta.SelectedItem as Jedinica;
-            if (j!=null && !Kanvasi.Contains(j))
+            Garnizoni g = GarnizoniKarta.SelectedItem as Garnizoni;
+            if (j != null && !Ikonicek.Contains(j.Ikonica))
             {
                 Image imagec = new Image();
                 imagec.Source = j.Ikonica;
@@ -521,25 +525,23 @@ namespace Garnizon
                 Canvas.SetTop(imagec, e.GetPosition(canvas).Y - 45);
 
                 canvas.Children.Add(imagec);
-                Kanvasi.Add(j);
+                Ikonicek.Add(j.Ikonica);
+                Jedinicek.Add(j);
             }
-        }
+            else if(g!= null && !Ikonicek.Contains(g.Ikonica))
+            {
+                Image imagec = new Image();
+                imagec.Source = g.Ikonica;
+                imagec.Width = 45;
+                imagec.Height = 45;
 
-        private void canvas_PreviewMouseMove(object sender, MouseEventArgs e)
-        {
-            
-        }
+                Canvas.SetLeft(imagec, e.GetPosition(canvas).X - 22.5);
+                Canvas.SetTop(imagec, e.GetPosition(canvas).Y - 45);
 
-        private void imagec_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.draggedItem = (UIElement)sender;
-            itemRelativePosition = e.GetPosition(this.draggedItem);
-            e.Handled = true;
-        }
-
-        private void canvas_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            
+                canvas.Children.Add(imagec);
+                Ikonicek.Add(g.Ikonica);
+                garnizonik.Add(g);
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -570,6 +572,114 @@ namespace Garnizon
                     }
                 }
             }
+        }
+
+        private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (draggedItem != null)
+            {
+                canvas.ReleaseMouseCapture();
+                Panel.SetZIndex(draggedItem, 0);
+                draggedItem = null;
+            }
+        }
+
+        private void canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (draggedItem != null)
+            {
+                var position = e.GetPosition(canvas);
+                var offset = position - mousePosition;
+                mousePosition = position;
+                Canvas.SetLeft(draggedItem, Canvas.GetLeft(draggedItem) + offset.X);
+                Canvas.SetTop(draggedItem, Canvas.GetTop(draggedItem) + offset.Y);
+            }
+        }
+
+        private void canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var image = e.Source as Image;
+
+            if (image != null)
+            {
+                ContextMenu = (ContextMenu)Resources["contextMenu"];
+                currentItem = image;
+            }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            int i = canvas.Children.IndexOf(currentItem);
+            canvas.Children.Remove(currentItem);
+            Ikonicek.RemoveAt(i-1);
+        }
+        //Rectangle r = new Rectangle
+        //{
+        //    Width = 50,
+        //    Height = 50,
+        //    StrokeThickness = 3,
+        //    Stroke = Brushes.Black
+        //};
+        //Canvas.SetLeft(r, Mouse.GetPosition(canvas).X);
+        //Canvas.SetTop(r, Mouse.GetPosition(canvas).Y);
+
+        //canvas.Children.Add(r);
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            int i = canvas.Children.IndexOf(currentItem);
+            canvas.Children.Remove(currentItem);
+            Jedinica j = new Jedinica();
+            Garnizoni g = new Garnizoni();
+            foreach (Jedinica jj in Jedinicek)
+            {
+                if(jj.Ikonica == Ikonicek[i-1])
+                {
+                    j = jj;
+                }
+            }
+            foreach(Garnizoni gg in garnizonik)
+            {
+                if(gg.Ikonica == Ikonicek[i-1])
+                {
+                    g = gg;
+                }
+                if(j!=null)
+                {
+                    foreach(Garnizoni ggg in garnizoni)
+                    {
+                        if(ggg.Jedinice.Contains(j))
+                        {
+                            MessageBox.Show("1");
+                            ggg.Jedinice.Remove(j);
+                        }
+                    }
+                }
+            }
+            Jedinicek.Remove(j);
+            garnizonik.Remove(g);
+
+            Ikonicek.RemoveAt(i - 1);
+
+        }
+
+        private void IkonicaKarta_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point mousePos = e.GetPosition(null);
+            Vector diff = startPoint - mousePos;
+            Image ikonicak = IkonicaKarta;
+
+            if (e.LeftButton == MouseButtonState.Pressed &&
+                (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance) && ikonicak != null)
+            {
+                DataObject dragData = new DataObject("myFormat", ikonicak);
+                DragDrop.DoDragDrop(ikonicak, dragData, DragDropEffects.Copy);
+            }
+        }
+
+        private void IkonicaKarta_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            startPoint = e.GetPosition(null);
         }
     }
 }
